@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086b0e06661b64b038fd9121a8d68cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonDeckFile: {fileID: 4900000, guid: caff80825454742cba113312425f8137, type: 3}
+  jsonDeckFile: {fileID: 4900000, guid: 07c4ccded032a0148ad030080bddc59e, type: 3}
   deck:
     decorators: []
     cards: []
