@@ -21,7 +21,7 @@
                     "type": "pip",
                     "loc": {
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
@@ -37,21 +37,11 @@
                     "type": "pip",
                     "loc": {
                         "x": 0.0,
-                        "y": 1.1,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -63,31 +53,11 @@
                     "type": "pip",
                     "loc": {
                         "x": 0.0,
-                        "y": 1.1,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -98,42 +68,12 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": 0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -161,63 +101,14 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": -0.0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
+               
             ]
         },
         {
@@ -227,72 +118,12 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": 0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": 0.55,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -303,82 +134,12 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": 0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": 0.55,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": -0.55,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -389,92 +150,12 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": 0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": 0.37,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 0.37,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -0.37,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -0.37,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
@@ -485,102 +166,12 @@
                 {
                     "type": "pip",
                     "loc": {
-                        "x": -0.55,
-                        "y": 1.1,
+                        "x": 0,
+                        "y": -0.5,
                         "z": 0.0
                     },
                     "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 1.1,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": 0.73,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": 0.37,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": 0.37,
-                        "z": 0.0
-                    },
-                    "flip": false,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -0.37,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -0.37,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.0,
-                        "y": -0.73,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": -0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
-                },
-                {
-                    "type": "pip",
-                    "loc": {
-                        "x": 0.55,
-                        "y": -1.1,
-                        "z": 0.0
-                    },
-                    "flip": true,
-                    "scale": 1.0
+                    "scale": 2.0
                 }
             ]
         },
