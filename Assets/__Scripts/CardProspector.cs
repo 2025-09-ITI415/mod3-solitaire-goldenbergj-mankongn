@@ -21,11 +21,11 @@ public class CardProspector : Card
     /// </summary>
     override public void OnMouseUpAsButton()
     {
-        // Uncomment the next line to call the base class version of this method
-        // base.OnMouseUpAsButton();                                          // a
-        // Call the CardClicked method on the Prospector Singleton
-        Prospector.CARD_CLICKED(this);
-        base.OnMouseUpAsButton();// b
-    }
+        PyramidManager pm = FindObjectOfType<PyramidManager>();
+        if (pm != null)
+            pm.SelectCard(this);
 
+        if (state == eCardState.drawpile)
+            Prospector.CARD_CLICKED(this);
+    }
 }
