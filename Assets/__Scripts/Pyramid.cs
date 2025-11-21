@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;   // We’ll need this line later in the chap
 [RequireComponent(typeof(JsonParseLayout))]
 public class Pyramid : MonoBehaviour
 {
-    private static Pyramid S; // A private Singleton for Prospector
+    private static Pyramid S; // A private Singleton for Pyramid
 
     [Header("Dynamic")]
     public List<CardPyramid> drawPile;
-
     public List<CardPyramid> discardPile;
     public List<CardPyramid> mine;
+    public List<CardPyramid> targetPile;
     public CardPyramid target;
     private CardPyramid selectedCard = null;
 
@@ -23,7 +23,7 @@ public class Pyramid : MonoBehaviour
     private JsonLayout jsonLayout;
 
     // A Dictionary to pair mine layout IDs and actual Cards
-    private Dictionary<int, CardProspector> mineIdToCardDict;                 // a
+    private Dictionary<int, CardPyramid> mineIdToCardDict;                 // a
 
 
     void Start()
@@ -39,7 +39,7 @@ public class Pyramid : MonoBehaviour
         deck.InitDeck();
         Deck.Shuffle(ref deck.cards);
 
-        drawPile = ConvertCardsToCardProspectors(deck.cards);
+        drawPile = ConvertCardsToCardPyramids(deck.cards);
 
         LayoutMine();
 
@@ -48,18 +48,18 @@ public class Pyramid : MonoBehaviour
     }
 
     /// <summary>
-    /// Converts each Card in a List(Card) into a List(CardProspector) so that it
-    ///  can be used in the Prospector game.
+    /// Converts each Card in a List(Card) into a List(CardPyramid) so that it
+    ///  can be used in the Pyramid game.
     /// </summary>
     /// <param name="listCard">A List(Card) to be converted</param>
-    /// <returns>A List(CardProspector) of the converted cards</returns>
-    List<CardProspector> ConvertCardsToCardProspectors(List<Card> listCard)
+    /// <returns>A List(CardPyramid) of the converted cards</returns>
+    List<CardPyramid> ConvertCardsToCardPyramids(List<Card> listCard)
     {
-        List<CardProspector> listCP = new List<CardProspector>();
-        CardProspector cp;
+        List<CardPyramid> listCP = new List<CardPyramid>();
+        CardPyramid cp;
         foreach (Card card in listCard)
         {
-            cp = card as CardProspector;                                      // c
+            cp = card as CardPyramid;                                      // c
             listCP.Add(cp);
         }
         return (listCP);
@@ -70,9 +70,9 @@ public class Pyramid : MonoBehaviour
     /// Note: There is no protection against trying to draw from an empty pile!
     /// </summary>
     /// <returns>The top card of drawPile</returns>
-    CardProspector Draw()
+    CardPyramid Draw()
     {
-        CardProspector cp = drawPile[0]; // Pull the 0th CardProspector
+        CardPyramid cp = drawPile[0]; // Pull the 0th CardPyramid
         drawPile.RemoveAt(0);            // Then remove it from drawPile
         return (cp);                      // And return it
     }
@@ -90,10 +90,10 @@ public class Pyramid : MonoBehaviour
             layoutAnchor = tGO.transform;             // Grab its Transform
         }
 
-        CardProspector cp;
+        CardPyramid cp;
 
-        // Generate the Dictionary to match mine layout ID to CardProspector
-        mineIdToCardDict = new Dictionary<int, CardProspector>();             // b
+        // Generate the Dictionary to match mine layout ID to CardPyramid
+        mineIdToCardDict = new Dictionary<int, CardPyramid>();             // b
 
 
         // Iterate through the JsonLayoutSlots pulled from the JSON_Layout
@@ -101,7 +101,7 @@ public class Pyramid : MonoBehaviour
         {
             cp = Draw(); // Pull a card from the top (beginning) of the draw Pile
             cp.faceUp = slot.faceUp;    // Set its faceUp to the value in SlotDef
-                                        // Make the CardProspector a child of layoutAnchor
+                                        // Make the CardPyramid a child of layoutAnchor
             cp.transform.SetParent(layoutAnchor);
 
             // Convert the last char of the layer string to an int (e.g. "Row 0")
@@ -115,15 +115,15 @@ public class Pyramid : MonoBehaviour
 
             cp.layoutID = slot.id;
             cp.layoutSlot = slot;
-            // CardProspectors in the mine have the state CardState.mine
+            // CardPyramids in the mine have the state CardState.mine
             cp.state = eCardState.mine;
 
             // Set the sorting layer of all SpriteRenderers on the Card
             cp.SetSpriteSortingLayer(slot.layer);
 
-            mine.Add(cp); // Add this CardProspector to the List<mine>
+            mine.Add(cp); // Add this CardPyramid to the List<mine>
 
-            // Add this CardProspector to the mineIDtoCardDict Dictionary
+            // Add this CardPyramid to the mineIDtoCardDict Dictionary
             mineIdToCardDict.Add(slot.id, cp);                                // c
 
         }
@@ -132,8 +132,8 @@ public class Pyramid : MonoBehaviour
     /// <summary>
     /// Moves the current target card to the discardPile
     /// </summary>
-    /// <param name="cp">The CardProspector to be moved</param>
-    void MoveToDiscard(CardProspector cp)
+    /// <param name="cp">The CardPyramid to be moved</param>
+    void MoveToDiscard(CardPyramid cp)
     {
         // Set the state of the card to discard
         cp.state = eCardState.discard;
@@ -159,35 +159,92 @@ public class Pyramid : MonoBehaviour
         {
             case eCardState.mine:
                 mine.Remove(cp);
-                MoveToDiscard(cp)
+                MoveToDiscard(cp);
                 break;
 
             case eCardState.target:
+                int index = targetPile.IndexOf(cp);
+                if(index >= 0)
+                {
+                    targetPile.RemoveAt(index);
+                }
                 MoveToDiscard(cp);
-                target = null;
+
+                if (targetPile.Count > 0)
+                {
+                    CardPyramid newTarget = targetPile[targetPile.Count - 1];
+                    target = newTarget;
+                    newTarget.state = eCardState.target;
+
+                    int i = targetPile.Count - 1;
+                    newTarget.SetSpriteSortingLayer("Target");
+                    newTarget.SetSortingOrder(-200 + i * 3);
+                }
+                else
+                {
+                    target = null;
+                }
                 break;
+        }
+    }
+
+    void ManageCardSelection(CardPyramid cp)
+    {
+        if (!cp.faceUp) return;
+
+        if (cp.rank == 13) // King is selected
+        {
+            RemoveCard(cp);
+            ScoreManager.TALLY(eScoreEvent.mine);
+            SetMineFaceUps();
+            selectedCard = null;
+            return;
+        }
+
+        if (selectedCard == null)
+        {
+            selectedCard = cp;
+            return;
+        }
+
+        if (selectedCard.rank + cp.rank == 13)
+        {
+            RemoveCard(selectedCard);
+            RemoveCard(cp);
+            ScoreManager.TALLY(eScoreEvent.mine);
+            selectedCard = null;
+            SetMineFaceUps();
+            CheckForGameOver();
+        }
+
+        else
+        {
+            selectedCard = cp;
         }
     }
 
     /// <summary>
     /// Make cp the new target card
     /// </summary>
-    /// <param name="cp">The CardProspector to be moved</param>
-    void MoveToTarget(CardProspector cp)
+    /// <param name="cp">The CardPyramid to be moved</param>
+    void MoveToTarget(CardPyramid cp)
     {
-        // If there is currently a target card, move it to discardPile
-        if (target != null) MoveToDiscard(target);
-
-        // Use MoveToDiscard to move the target card to the correct location
-        MoveToDiscard(cp);                                                    // c
-
+        targetPile.Add(cp);
         // Then set a few additional things to make cp the new target
         target = cp; // cp is the new target
-        cp.state = eCardState.target;
 
+        cp.state = eCardState.target;
+        cp.transform.SetParent(layoutAnchor);
+        cp.faceUp = true;
+
+        float tx = (jsonLayout.discardPile.x + 3);
+        float ty = jsonLayout.drawPile.y;
+        int i = targetPile.Count - 1;
+        Vector3 pos = new Vector3(jsonLayout.multiplier.x * tx, jsonLayout.multiplier.y * ty, -0.1f * i);
+        cp.SetLocalPos(pos);
         // Set the depth sorting so that cp is on top of the discardPile
         cp.SetSpriteSortingLayer("Target");                                 // c
-        cp.SetSortingOrder(0);
+        cp.SetSortingOrder(-200 + i * 3);
     }
 
     /// <summary>
@@ -195,7 +252,7 @@ public class Pyramid : MonoBehaviour
     /// </summary>
     void UpdateDrawPile()
     {
-        CardProspector cp;
+        CardPyramid cp;
         // Go through all the cards of the drawPile
         for (int i = 0; i < drawPile.Count; i++)
         {
@@ -224,8 +281,8 @@ public class Pyramid : MonoBehaviour
     /// </summary>
     public void SetMineFaceUps()
     {                                            // d
-        CardProspector coverCP;
-        foreach (CardProspector cp in mine)
+        CardPyramid coverCP;
+        foreach (CardPyramid cp in mine)
         {
             bool faceUp = true; // Assume the card will be face-up
 
@@ -259,14 +316,40 @@ public class Pyramid : MonoBehaviour
         if (drawPile.Count > 0) return;
 
         // Check for remaining valid plays
-        foreach (CardProspector cp in mine)
+        if (!HasPlayablePair())                                      // b
         {
-            // If there is a valid play, the game’s not over
-            if (target.AdjacentTo(cp)) return;
+            GameOver(false);
+        }
+    }
+
+    bool HasPlayablePair()
+    {
+        List<CardPyramid> availableCards = new List<CardPyramid>();
+
+        foreach (CardPyramid cp in mine)
+        {
+            if (cp.faceUp) availableCards.Add(cp);
         }
 
-        // Since there are no valid plays, the game is over
-        GameOver(false);  // Call GameOver with a loss
+        if (target != null && target.state == eCardState.target)
+        {
+            availableCards.Add(target);
+        }
+
+        foreach (CardPyramid cp in availableCards)
+        {
+            if (cp.rank == 13) return true;
+        }
+
+        for (int i = 0; i < availableCards.Count - 1; i++)
+        {
+            for (int j = i + 1; j < availableCards.Count; j++)
+            {
+                if (availableCards[i].rank + availableCards[j].rank == 13) return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -289,47 +372,34 @@ public class Pyramid : MonoBehaviour
         // Reset the CardSpritesSO singleton to null
         CardSpritesSO.RESET();                                                // b
                                                                               // Reload the scene, resetting the game
-                                                                              // Note that there are TWO underscores at the beginning of "__Prospector…
-        SceneManager.LoadScene("__Prospector_Scene_0");
+                                                                              // Note that there are TWO underscores at the beginning of "__Pyramid…
+        SceneManager.LoadScene("__Pyramid_Scene_0");
     }
 
     /// <summary>
     /// Handler for any time a card in the game is clicked
     /// </summary>
-    /// <param name="cp">The CardProspector that was clicked</param>
-    static public void CARD_CLICKED(CardProspector cp)
+    /// <param name="cp">The CardPyramid that was clicked</param>
+    static public void CARD_CLICKED(CardPyramid cp)
     {
         // The reaction is determined by the state of the clicked card
         switch (cp.state)
         {
             case eCardState.target:
-                // Clicking the target card does nothing
+                S.ManageCardSelection(cp);
                 break;
             case eCardState.drawpile:
                 // Clicking *any* card in the drawPile will draw the next card
-                // Call two methods on the Prospector Singleton S
+                // Call two methods on the Pyramid Singleton S
                 S.MoveToTarget(S.Draw());  // Draw a new target card
                 S.UpdateDrawPile();          // Restack the drawPile
                 ScoreManager.TALLY(eScoreEvent.draw);
+                S.selectedCard = null; // Clear selection if drawing
                 break;
             case eCardState.mine:
-                // Clicking a card in the mine will check if it’s a valid play
-                bool validMatch = true;  // Initially assume that it’s valid 
-
-                // If the card is face-down, it’s not valid
-                if (!cp.faceUp) validMatch = false;
-
-                // If it’s not an adjacent rank, it’s not valid
-                if (!cp.AdjacentTo(S.target)) validMatch = false;            // b
-
-                if (validMatch)
-                {        // If it’s a valid card
-                    S.mine.Remove(cp);   // Remove it from the tableau List
-                    S.MoveToTarget(cp);  // Make it the target card
-
-                    S.SetMineFaceUps();  // Be sure to add this line!!
-                    ScoreManager.TALLY(eScoreEvent.mine);
-                }
+                S.ManageCardSelection(cp);
+                break;
+            case eCardState.discard:
                 break;
         }
         S.CheckForGameOver();
