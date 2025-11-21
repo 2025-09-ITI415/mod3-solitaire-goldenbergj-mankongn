@@ -43,7 +43,6 @@ public class Pyramid : MonoBehaviour
 
         LayoutMine();
 
-        MoveToTarget(Draw());
         UpdateDrawPile();
     }
 
@@ -100,7 +99,7 @@ public class Pyramid : MonoBehaviour
         foreach (JsonLayoutSlot slot in jsonLayout.slots)
         {
             cp = Draw(); // Pull a card from the top (beginning) of the draw Pile
-            cp.faceUp = slot.faceUp;    // Set its faceUp to the value in SlotDef
+            cp.faceUp = true;    // Set its faceUp to the value in SlotDef
                                         // Make the CardPyramid a child of layoutAnchor
             cp.transform.SetParent(layoutAnchor);
 
@@ -190,13 +189,12 @@ public class Pyramid : MonoBehaviour
 
     void ManageCardSelection(CardPyramid cp)
     {
-        if (!cp.faceUp) return;
+        if (cp.state == eCardState.mine && !IsCardUncovered(cp)) return;
 
         if (cp.rank == 13) // King is selected
         {
             RemoveCard(cp);
             ScoreManager.TALLY(eScoreEvent.mine);
-            SetMineFaceUps();
             selectedCard = null;
             return;
         }
@@ -213,7 +211,6 @@ public class Pyramid : MonoBehaviour
             RemoveCard(cp);
             ScoreManager.TALLY(eScoreEvent.mine);
             selectedCard = null;
-            SetMineFaceUps();
             CheckForGameOver();
         }
 
@@ -222,6 +219,52 @@ public class Pyramid : MonoBehaviour
             selectedCard = cp;
         }
     }
+
+    bool IsCardUncovered(CardPyramid cp)
+    {
+        if (cp.state != eCardState.mine) return true;
+
+        foreach (int coverID in cp.layoutSlot.hiddenBy)
+        {
+            CardPyramid coverCP = mineIdToCardDict[coverID];
+            if (coverCP != null && coverCP.state == eCardState.mine)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool HasPlayablePair()
+    {
+        List<CardPyramid> availableCards = new List<CardPyramid>();
+
+        foreach (CardPyramid cp in mine)
+        {
+            if (IsCardUncovered(cp)) availableCards.Add(cp);
+        }
+
+        if (target != null && target.state == eCardState.target)
+        {
+            availableCards.Add(target);
+        }
+
+        foreach (CardPyramid cp in availableCards)
+        {
+            if (cp.rank == 13) return true;
+        }
+
+        for (int i = 0; i < availableCards.Count - 1; i++)
+        {
+            for (int j = i + 1; j < availableCards.Count; j++)
+            {
+                if (availableCards[i].rank + availableCards[j].rank == 13) return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /// <summary>
     /// Make cp the new target card
@@ -268,7 +311,7 @@ public class Pyramid : MonoBehaviour
             cpPos.z = 0.1f * i;
             cp.SetLocalPos(cpPos);
 
-            cp.faceUp = false; // DrawPile Cards are all face-down
+            cp.faceUp = true; 
             cp.state = eCardState.drawpile;
             // Set depth sorting
             cp.SetSpriteSortingLayer(jsonLayout.drawPile.layer);
@@ -320,36 +363,6 @@ public class Pyramid : MonoBehaviour
         {
             GameOver(false);
         }
-    }
-
-    bool HasPlayablePair()
-    {
-        List<CardPyramid> availableCards = new List<CardPyramid>();
-
-        foreach (CardPyramid cp in mine)
-        {
-            if (cp.faceUp) availableCards.Add(cp);
-        }
-
-        if (target != null && target.state == eCardState.target)
-        {
-            availableCards.Add(target);
-        }
-
-        foreach (CardPyramid cp in availableCards)
-        {
-            if (cp.rank == 13) return true;
-        }
-
-        for (int i = 0; i < availableCards.Count - 1; i++)
-        {
-            for (int j = i + 1; j < availableCards.Count; j++)
-            {
-                if (availableCards[i].rank + availableCards[j].rank == 13) return true;
-            }
-        }
-
-        return false;
     }
 
     /// <summary>
